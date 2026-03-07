@@ -1,252 +1,180 @@
 "use client";
 
+import Link from "next/link";
+
 const categories = ["Yarn", "Fabric", "Tools", "Kits", "Accessories"] as const;
 
-const bestSellers = [
+const products = [
   {
-    name: "Cloudsoft Merino Bundle",
-    price: "$38",
-    badge: "Bestseller",
-    color: "from-rose-100 to-rose-200",
-  },
-  {
-    name: "Everyday Embroidery Kit",
-    price: "$29",
-    badge: "New",
-    color: "from-amber-100 to-amber-200",
-  },
-  {
-    name: "Essentials Needle Set",
+    name: "Undyed Wool Skein Set",
+    description: "Soft aran-weight wool for quiet winter projects.",
     price: "$24",
-    badge: "Staff pick",
-    color: "from-sky-100 to-sky-200",
+    swatchColor: "bg-[#d9d1c3]",
+  },
+  {
+    name: "Everyday Linen Fat Quarters",
+    description: "Muted neutrals for quilting and small sewing.",
+    price: "$32",
+    swatchColor: "bg-[#d0d8cc]",
+  },
+  {
+    name: "Oak Handle Scissors",
+    description: "Precise stainless blades with warm wooden grip.",
+    price: "$28",
+    swatchColor: "bg-[#c7c0b5]",
+  },
+  {
+    name: "Starter Embroidery Bundle",
+    description: "Hoop, threads and fabric for simple motifs.",
+    price: "$36",
+    swatchColor: "bg-[#ddd4c7]",
   },
 ] as const;
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white text-slate-900">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-6 md:px-8 md:py-10">
-        {/* Top navigation */}
-        <header className="flex items-center justify-between gap-4 rounded-full border border-slate-100 bg-white/80 px-4 py-3 shadow-sm shadow-slate-100/80 backdrop-blur-md md:px-6">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-900 text-xs font-semibold tracking-tight text-white">
-              KN
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-semibold tracking-tight">
-                Knots &amp; Needles
-              </span>
-              <span className="text-[11px] text-slate-500">
-                Premium craft supplies
-              </span>
-            </div>
+    <main className="min-h-screen bg-[#f6f4f0] text-slate-900">
+      <div className="mx-auto max-w-5xl px-4 py-6 md:px-8 md:py-10">
+        {/* Navbar */}
+        <header className="flex items-center justify-between py-4 md:py-6">
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold tracking-[0.18em] text-slate-700">
+              KNOTS &amp; NEEDLES
+            </span>
+            <span className="mt-1 text-xs text-slate-500">
+              Craft supplies, kept quiet and considered.
+            </span>
           </div>
-
-          <nav className="hidden flex-1 items-center justify-center gap-2 md:flex">
-            {categories.map((item) => (
-              <button
-                key={item}
-                className="rounded-full border border-slate-100 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-[0_1px_0_rgba(148,163,184,0.4)] transition hover:bg-white"
-              >
-                {item}
+          <div className="flex items-center gap-6">
+            <nav className="flex items-center gap-6 text-xs text-slate-700 md:text-sm">
+              <Link href="/shop" className="hover:text-slate-900">
+                Shop
+              </Link>
+              <button className="hidden text-slate-700 hover:text-slate-900 md:inline">
+                New
               </button>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            <button className="hidden items-center gap-2 rounded-full border border-slate-100 bg-slate-50 px-3 py-1.5 text-[11px] text-slate-500 md:flex">
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-semibold text-slate-500 shadow">
-                /
-              </span>
-              <span>Search yarn, kits, tools…</span>
-            </button>
-            <button className="flex h-9 w-9 items-center justify-center rounded-2xl border border-slate-100 bg-white text-[11px] font-medium text-slate-700 shadow-sm hover:bg-slate-50">
-              🛒
-            </button>
+              <button className="hidden text-slate-700 hover:text-slate-900 md:inline">
+                Workshops
+              </button>
+              <button className="hidden text-slate-700 hover:text-slate-900 md:inline">
+                Journal
+              </button>
+            </nav>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/cart"
+                aria-label="Open cart"
+                className="text-slate-700 hover:text-slate-900"
+              >
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="9" cy="19" r="1.2" />
+                  <circle cx="17" cy="19" r="1.2" />
+                  <path d="M4 5h2l1.2 8.4A1.4 1.4 0 0 0 8.6 15h8.3a1.4 1.4 0 0 0 1.4-1.2L19.5 9H7.2" />
+                </svg>
+              </Link>
+              <Link
+                href="/login"
+                aria-label="Log in"
+                className="text-slate-700 hover:text-slate-900"
+              >
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="9" r="3.1" />
+                  <path d="M6.5 18.4C7.7 16.4 9.7 15.2 12 15.2s4.3 1.2 5.5 3.2" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </header>
 
-        {/* Hero bento grid */}
-        <section className="grid gap-6 lg:grid-cols-3 lg:auto-rows-[minmax(190px,auto)]">
-          {/* Main hero card */}
-          <article className="relative flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-sm lg:row-span-2">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  New Season Edit
-                </p>
-                <h1 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
-                  Build your dream
-                  <span className="block text-slate-500">
-                    knitting &amp; quilting studio.
-                  </span>
-                </h1>
-                <p className="mt-3 max-w-xs text-sm text-slate-500">
-                  Curated yarn, fabrics, tools and step-by-step kits picked by
-                  makers, for makers.
-                </p>
-                <div className="mt-4 flex flex-wrap items-center gap-2">
-                  <button className="rounded-full bg-slate-900 px-4 py-2 text-xs font-medium text-white shadow-md shadow-slate-400/40">
-                    Shop featured bundles
-                  </button>
-                  <button className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700">
-                    Browse by craft
-                  </button>
-                </div>
-              </div>
-              <div className="hidden text-right text-[11px] text-slate-500 sm:block">
-                <div className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-3 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  <span>In stock</span>
-                </div>
-                <p className="mt-2">4.9 · 3,200+ reviews</p>
-              </div>
+        {/* Hero */}
+        <section className="grid gap-8 py-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-center">
+          <div>
+            <h1 className="text-3xl font-light tracking-tight text-slate-900 md:text-4xl">
+              Quiet tools and materials
+              <span className="block text-slate-700">
+                for your everyday making.
+              </span>
+            </h1>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-slate-600">
+              Knots &amp; Needles gathers yarns, fabrics and tools in muted,
+              grounded palettes so your workspace feels as calm as the projects
+              you bring to life.
+            </p>
+            <div className="mt-6 flex items-center gap-4">
+              <button className="rounded-md bg-slate-900 px-5 py-2.5 text-xs font-medium tracking-wide text-[#f6f4f0] shadow-sm shadow-slate-900/20 hover:bg-slate-800">
+                Shop all craft supplies
+              </button>
+              <span className="text-xs text-slate-500">
+                Free shipping on orders over $65.
+              </span>
             </div>
-            <div className="mt-5 flex gap-3">
-              <div className="h-32 flex-1 rounded-3xl bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200" />
-              <div className="hidden h-32 flex-1 rounded-3xl bg-gradient-to-br from-amber-100 via-amber-50 to-amber-200 sm:block" />
-            </div>
-          </article>
+          </div>
 
-          {/* Yarn feature card */}
-          <article className="flex flex-col justify-between rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  Yarn
-                </p>
-                <h2 className="mt-2 text-sm font-semibold tracking-tight">
-                  Hand-dyed cloud yarns
-                </h2>
-                <p className="mt-1 text-xs text-slate-500">
-                  Soft merinos in layered neutrals and muted brights.
-                </p>
-              </div>
-              <p className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600">
-                from $9
-              </p>
+          <div className="flex flex-col gap-4">
+            <div className="h-40 w-full rounded-md bg-[#e0d7c8] shadow-sm shadow-slate-900/10 md:h-48" />
+            <div className="flex gap-4">
+              <div className="h-24 flex-1 rounded-md bg-[#d0d8cc] shadow-sm shadow-slate-900/10" />
+              <div className="h-24 flex-1 rounded-md bg-[#c7c0b5] shadow-sm shadow-slate-900/10" />
             </div>
-            <div className="mt-4 h-24 rounded-3xl bg-gradient-to-br from-rose-50 via-rose-100 to-rose-200" />
-          </article>
-
-          {/* Fabric feature card */}
-          <article className="flex flex-col justify-between rounded-3xl border border-slate-100 bg-white p-4 shadow-sm lg:row-span-2">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  Fabric
-                </p>
-                <h2 className="mt-2 text-sm font-semibold tracking-tight">
-                  Linen &amp; cotton bundles
-                </h2>
-                <p className="mt-1 text-xs text-slate-500">
-                  Pre-cut fat quarters and yardage in calm, modern palettes.
-                </p>
-              </div>
-              <p className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600">
-                Quilt-ready
-              </p>
-            </div>
-            <div className="mt-4 flex flex-1 gap-3">
-              <div className="flex-1 rounded-3xl bg-gradient-to-br from-amber-50 via-amber-100 to-amber-200" />
-              <div className="flex-1 rounded-3xl bg-gradient-to-br from-sky-50 via-sky-100 to-sky-200" />
-            </div>
-          </article>
-
-          {/* Kits card */}
-          <article className="flex flex-col justify-between rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  Kits
-                </p>
-                <h2 className="mt-2 text-sm font-semibold tracking-tight">
-                  Weekend-ready project boxes
-                </h2>
-                <p className="mt-1 text-xs text-slate-500">
-                  Yarn, needles, pattern &amp; notions perfectly packed.
-                </p>
-              </div>
-              <p className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600">
-                Save 20%
-              </p>
-            </div>
-            <div className="mt-4 h-24 rounded-3xl bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200" />
-          </article>
-
-          {/* Subscribe card */}
-          <article className="flex flex-col justify-between rounded-3xl border border-slate-900/70 bg-slate-900 px-4 py-5 text-slate-50 shadow-sm lg:col-span-1">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                Studio Notes
-              </p>
-              <h2 className="mt-2 text-sm font-semibold tracking-tight">
-                Get drops, patterns &amp; class invites first.
-              </h2>
-              <p className="mt-1 text-xs text-slate-400">
-                A short, thoughtful email for knitters, sewists and makers.
-              </p>
-            </div>
-            <form className="mt-4 flex flex-col gap-2 text-xs">
-              <div className="flex items-center gap-2 rounded-full bg-slate-800 px-3 py-1.5">
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  className="flex-1 bg-transparent text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="rounded-full bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-900 shadow-sm"
-                >
-                  Subscribe
-                </button>
-              </div>
-              <p className="text-[11px] text-slate-500">
-                No spam. Just craft inspiration.
-              </p>
-            </form>
-          </article>
+          </div>
         </section>
 
-        {/* Best sellers row */}
-        <section className="space-y-4 rounded-3xl border border-slate-100 bg-white p-4 shadow-sm md:p-5">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <h2 className="text-sm font-semibold tracking-tight">
-                Bestsellers from Knots &amp; Needles
-              </h2>
-              <p className="mt-1 text-xs text-slate-500">
-                Kits and tools our community reaches for every week.
-              </p>
-            </div>
-            <button className="hidden text-[11px] font-medium text-slate-600 underline-offset-2 hover:underline md:inline">
-              View all products
+        {/* Category strip */}
+        <section className="py-6">
+          <div className="flex gap-6 overflow-x-auto text-[11px] uppercase tracking-[0.25em] text-slate-500 md:text-xs">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className="whitespace-nowrap hover:text-slate-800"
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* Product grid */}
+        <section className="py-6">
+          <div className="mb-4 flex items-baseline justify-between">
+            <h2 className="text-sm font-medium tracking-tight text-slate-900 md:text-base">
+              Everyday pieces for the worktable
+            </h2>
+            <button className="text-xs text-slate-600 hover:text-slate-900">
+              View all
             </button>
           </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {bestSellers.map((product) => (
-              <div
-                key={product.name}
-                className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-3"
-              >
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+            {products.map((product) => (
+              <article key={product.name} className="flex flex-col gap-3">
                 <div
-                  className={`h-28 rounded-2xl bg-gradient-to-br ${product.color}`}
+                  className={`aspect-[4/3] w-full rounded-md ${product.swatchColor} shadow-sm shadow-slate-900/10`}
                 />
-                <div className="flex items-start justify-between gap-2 text-xs">
-                  <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-400">
-                      {product.badge}
-                    </p>
-                    <p className="mt-1 text-sm font-medium leading-snug text-slate-900">
-                      {product.name}
-                    </p>
-                  </div>
-                  <p className="mt-1 text-sm font-semibold text-slate-900">
+                <div className="space-y-1 text-sm">
+                  <h3 className="text-slate-900">{product.name}</h3>
+                  <p className="text-xs leading-relaxed text-slate-600">
+                    {product.description}
+                  </p>
+                  <p className="pt-1 text-xs font-medium text-slate-800">
                     {product.price}
                   </p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
