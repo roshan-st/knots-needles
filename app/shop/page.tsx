@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 
 type ProductRow = {
@@ -6,6 +7,7 @@ type ProductRow = {
   price: number | string | null;
   category: string | null;
   stock: number | null;
+  image_url?: string | null;
 };
 
 function formatPrice(value: ProductRow["price"]) {
@@ -32,7 +34,7 @@ function formatPrice(value: ProductRow["price"]) {
 export default async function ShopPage() {
   const { data, error } = await supabase
     .from("products")
-    .select("id,name,price,category,stock")
+    .select("id,name,price,category,stock,image_url")
     .order("name", { ascending: true });
 
   console.log("[ShopPage] Supabase products response", {
@@ -72,7 +74,17 @@ export default async function ShopPage() {
           <section className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
             {products.map((product, idx) => (
               <article key={String(product.id ?? idx)} className="space-y-3">
-                <div className="aspect-[4/3] w-full rounded-md bg-[#e0d7c8] shadow-sm shadow-slate-900/10" />
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-[#e0d7c8] shadow-sm shadow-slate-900/10">
+                  {product.image_url ? (
+                    <Image
+                      src={product.image_url}
+                      alt={product.name ?? "Product image"}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 50vw"
+                      className="object-cover"
+                    />
+                  ) : null}
+                </div>
                 <div className="space-y-1">
                   <div className="flex items-start justify-between gap-3">
                     <h2 className="text-sm font-medium tracking-tight text-slate-900">
