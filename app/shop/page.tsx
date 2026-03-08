@@ -1,31 +1,47 @@
-const products = [
-  {
-    name: "Undyed Wool Skein Set",
-    description: "Soft aran-weight wool for quiet winter projects.",
-    price: "$24",
-    swatchColor: "bg-[#d9d1c3]",
-  },
-  {
-    name: "Everyday Linen Fat Quarters",
-    description: "Muted neutrals for quilting and small sewing.",
-    price: "$32",
-    swatchColor: "bg-[#d0d8cc]",
-  },
-  {
-    name: "Oak Handle Scissors",
-    description: "Precise stainless blades with warm wooden grip.",
-    price: "$28",
-    swatchColor: "bg-[#c7c0b5]",
-  },
-  {
-    name: "Starter Embroidery Bundle",
-    description: "Hoop, threads and fabric for simple motifs.",
-    price: "$36",
-    swatchColor: "bg-[#ddd4c7]",
-  },
-] as const;
+import { supabase } from "@/lib/supabase";
 
-export default function ShopPage() {
+type ProductRow = {
+  id?: string | number;
+  name: string | null;
+  price: number | string | null;
+  category: string | null;
+  stock: number | null;
+};
+
+function formatPrice(value: ProductRow["price"]) {
+  if (value === null || value === undefined) return "—";
+  if (typeof value === "number") {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: value % 1 === 0 ? 0 : 2,
+    }).format(value);
+  }
+  const trimmed = String(value).trim();
+  if (!trimmed) return "—";
+  if (/[a-zA-Z$€£]/.test(trimmed)) return trimmed;
+  const asNumber = Number(trimmed);
+  if (!Number.isFinite(asNumber)) return trimmed;
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: asNumber % 1 === 0 ? 0 : 2,
+  }).format(asNumber);
+}
+
+export default async function ShopPage() {
+  const { data, error } = await supabase
+    .from("products")
+    .select("id,name,price,category,stock")
+    .order("name", { ascending: true });
+
+  console.log("[ShopPage] Supabase products response", {
+    data,
+    error,
+  });
+
+  const products = (data ?? []) as ProductRow[];
+
   return (
     <main className="min-h-screen bg-[#f6f4f0] text-slate-900">
       <div className="mx-auto max-w-5xl px-4 py-8 md:px-8 md:py-12">
@@ -39,24 +55,49 @@ export default function ShopPage() {
           </p>
         </header>
 
-        <section className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {products.map((product) => (
-            <article key={product.name} className="flex flex-col gap-3">
-              <div
-                className={`aspect-[4/3] w-full rounded-md ${product.swatchColor} shadow-sm shadow-slate-900/10`}
-              />
-              <div className="space-y-1 text-sm">
-                <h2 className="text-slate-900">{product.name}</h2>
-                <p className="text-xs leading-relaxed text-slate-600">
-                  {product.description}
-                </p>
-                <p className="pt-1 text-xs font-medium text-slate-800">
-                  {product.price}
-                </p>
-              </div>
-            </article>
-          ))}
-        </section>
+        {error ? (
+          <section className="rounded-md bg-[#f0e8dd] px-4 py-5 text-sm text-slate-700 shadow-sm shadow-slate-900/10">
+            <p className="font-medium text-slate-900">Couldn&apos;t load products.</p>
+            <p className="mt-2 text-xs text-slate-600">
+              {error.message}
+            </p>
+          </section>
+        ) : products.length === 0 ? (
+          <section className="rounded-md bg-[#f0e8dd] px-4 py-5 text-sm text-slate-700 shadow-sm shadow-slate-900/10">
+            Your shop is empty right now. Add rows to the{" "}
+            <span className="font-medium text-slate-900">products</span> table
+            to display them here.
+          </section>
+        ) : (
+          <section className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+            {products.map((product, idx) => (
+              <article key={String(product.id ?? idx)} className="space-y-3">
+                <div className="aspect-[4/3] w-full rounded-md bg-[#e0d7c8] shadow-sm shadow-slate-900/10" />
+                <div className="space-y-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <h2 className="text-sm font-medium tracking-tight text-slate-900">
+                      {product.name ?? "Untitled product"}
+                    </h2>
+                    <p className="text-xs font-medium text-slate-800">
+                      {formatPrice(product.price)}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
+                    <p className="uppercase tracking-[0.18em] text-slate-500">
+                      {product.category ?? "Uncategorized"}
+                    </p>
+                    <p className="text-slate-600">
+                      Stock:{" "}
+                      <span className="text-slate-800">
+                        {product.stock ?? "—"}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </section>
+        )}
       </div>
     </main>
   );
