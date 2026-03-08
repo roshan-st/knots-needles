@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 type ProductRow = {
@@ -73,7 +74,11 @@ export default async function ShopPage() {
         ) : (
           <section className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
             {products.map((product, idx) => (
-              <article key={String(product.id ?? idx)} className="space-y-3">
+              <Link
+                key={String(product.id ?? idx)}
+                href={`/shop/${product.id}`}
+                className="group block space-y-3"
+              >
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-[#e0d7c8] shadow-sm shadow-slate-900/10">
                   {product.image_url ? (
                     <Image
@@ -81,13 +86,13 @@ export default async function ShopPage() {
                       alt={product.name ?? "Product image"}
                       fill
                       sizes="(min-width: 768px) 33vw, 50vw"
-                      className="object-cover"
+                      className="object-cover transition group-hover:opacity-95"
                     />
                   ) : null}
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-start justify-between gap-3">
-                    <h2 className="text-sm font-medium tracking-tight text-slate-900">
+                    <h2 className="text-sm font-medium tracking-tight text-slate-900 group-hover:text-slate-800">
                       {product.name ?? "Untitled product"}
                     </h2>
                     <p className="text-xs font-medium text-slate-800">
@@ -106,7 +111,7 @@ export default async function ShopPage() {
                     </p>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
           </section>
         )}
